@@ -49,6 +49,9 @@ export class Obsidian {
       body?: string;
     },
   ): Promise<T> {
+    // biome-ignore lint/suspicious/noConsole: <explanation>
+    console.debug(`[${method}] ${this.baseUrl}${path}`);
+
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: method,
       headers: { ...this.headers, ...headers },

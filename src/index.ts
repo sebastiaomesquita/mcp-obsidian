@@ -1,3 +1,4 @@
+import "log-timestamp";
 import type { ServerResponse } from "node:http";
 import config from "@/config";
 import { registerTools } from "@/tools";
