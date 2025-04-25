@@ -8,9 +8,9 @@
     "dist"
   ],
   "bin": {
-    "mcp-obsidian": "dist/stdio.js",
-    "stdio": "dist/stdio.js",
-    "sse": "dist/sse.js"
+    "@fazer-ai/mcp-obsidian": "dist/stdio.js",
+    "@fazer-ai/mcp-obsidian-stdio": "dist/stdio.js",
+    "@fazer-ai/mcp-obsidian-sse": "dist/sse.js"
   },
   "license": "MIT",
   "repository": {
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/transports/sse.ts --target node --outdir=dist && bun build src/transports/stdio.ts --target node --outdir=dist",
+    "build": "bun build src/transports/stdio.ts --target node --outdir=dist && bun build src/transports/sse.ts --target node --outdir=dist",
     "lint": "bun biome check",
     "format": "bun biome check --write",
     "prepublishOnly": "bun run build"
