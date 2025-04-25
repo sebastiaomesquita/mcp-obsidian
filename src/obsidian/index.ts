@@ -140,10 +140,7 @@ export class Obsidian {
     });
   }
 
-  openFile({
-    filename,
-    newLeaf,
-  }: { filename: string; newLeaf?: boolean | null }) {
+  openFile({ filename, newLeaf }: { filename: string; newLeaf: boolean }) {
     const qs = newLeaf ? "?newLeaf=true" : "";
     return this.fetch<void>(`/open/${sanitizeAndEncodePath(filename)}${qs}`, {
       method: "POST",
