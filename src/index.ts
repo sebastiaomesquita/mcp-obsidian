@@ -34,7 +34,4 @@ app.post("/messages", async (req, res) => {
   }
 });
 
-app.listen(config.port, () => {
-  // biome-ignore lint/suspicious/noConsole: <explanation>
-  console.error(`Server is running on http://localhost:${config.port}`);
-});
+app.listen(config.port);
