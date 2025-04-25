@@ -3,7 +3,18 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { name, version } from "../package.json";
 
-const server = new McpServer({ name, version });
+const server = new McpServer(
+  { name, version },
+  {
+    instructions:
+      "This is a MCP server for Obsidian. It is a simple server that can be used to run commands and get responses from the client running Local REST API community plugin.",
+    capabilities: {
+      resources: {},
+      prompts: {},
+      tools: {},
+    },
+  },
+);
 registerTools(server);
 
 async function main() {
