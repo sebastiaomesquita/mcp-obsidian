@@ -5,7 +5,7 @@ import { registerTools } from "@/tools";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import express from "express";
-import { name, version } from "../package.json";
+import { name, version } from "../../package.json";
 
 const server = new McpServer({ name, version });
 registerTools(server);
@@ -34,4 +34,7 @@ app.post("/messages", async (req, res) => {
   }
 });
 
-app.listen(config.port);
+app.listen(config.port, () => {
+  // biome-ignore lint/suspicious/noConsole: <explanation>
+  console.log(`Server is running on http://localhost:${config.port}`);
+});
