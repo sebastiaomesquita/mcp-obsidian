@@ -7,11 +7,7 @@
   "files": [
     "dist"
   ],
-  "bin": {
-    "@fazer-ai/mcp-obsidian": "dist/stdio.js",
-    "@fazer-ai/mcp-obsidian-stdio": "dist/stdio.js",
-    "@fazer-ai/mcp-obsidian-sse": "dist/sse.js"
-  },
+  "bin": "dist/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,7 +18,7 @@
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/transports/stdio.ts --target node --outdir=dist && bun build src/transports/sse.ts --target node --outdir=dist",
+    "build": "bun build src/index.ts --target node --outdir=dist",
     "lint": "bun biome check",
     "format": "bun biome check --write",
     "prepublishOnly": "bun run build"
@@ -36,8 +32,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.2",
-    "express": "^5.1.0",
-    "log-timestamp": "^0.3.0"
+    "@modelcontextprotocol/sdk": "^1.10.2"
   }
 }

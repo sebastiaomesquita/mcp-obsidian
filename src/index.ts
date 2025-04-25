@@ -1,7 +1,7 @@
 import { registerTools } from "@/tools";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { name, version } from "../../package.json";
+import { name, version } from "../package.json";
 
 const server = new McpServer({ name, version });
 registerTools(server);
