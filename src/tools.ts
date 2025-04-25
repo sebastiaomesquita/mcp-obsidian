@@ -6,7 +6,7 @@ import { z } from "zod";
 const obsidian = new Obsidian(config.obsidian);
 
 export function registerTools(server: McpServer) {
-  server.tool("status", async () => {
+  server.tool("status", "Returns basic details about the server.", async () => {
     const status = await obsidian.status();
     return {
       content: [
@@ -18,22 +18,31 @@ export function registerTools(server: McpServer) {
     };
   });
 
-  server.tool("delete_active", async () => {
-    await obsidian.deleteActive();
-    return {
-      content: [{ type: "text", text: "OK" }],
-    };
-  });
+  server.tool(
+    "delete_active",
+    "Deletes the currently-active file.",
+    async () => {
+      await obsidian.deleteActive();
+      return {
+        content: [{ type: "text", text: "OK" }],
+      };
+    },
+  );
 
-  server.tool("get_active", async () => {
-    const note = await obsidian.getActive();
-    return {
-      content: [{ type: "text", text: JSON.stringify(note) }],
-    };
-  });
+  server.tool(
+    "get_active",
+    "Returns the content of the currently-active file.",
+    async () => {
+      const note = await obsidian.getActive();
+      return {
+        content: [{ type: "text", text: JSON.stringify(note) }],
+      };
+    },
+  );
 
   server.tool(
     "patch_active",
+    "Inserts content into the active file relative to a target.",
     {
       operation: z.enum(["append", "prepend", "replace"]),
       targetType: z.enum(["heading", "block", "frontmatter"]),
@@ -51,41 +60,61 @@ export function registerTools(server: McpServer) {
     },
   );
 
-  server.tool("post_active", { content: z.string() }, async (args) => {
-    await obsidian.postActive(args);
-    return {
-      content: [{ type: "text", text: "OK" }],
-    };
-  });
+  server.tool(
+    "post_active",
+    "Appends content to the active file.",
+    { content: z.string() },
+    async (args) => {
+      await obsidian.postActive(args);
+      return {
+        content: [{ type: "text", text: "OK" }],
+      };
+    },
+  );
 
-  server.tool("put_active", { content: z.string() }, async (args) => {
-    await obsidian.putActive(args);
-    return {
-      content: [{ type: "text", text: "OK" }],
-    };
-  });
+  server.tool(
+    "put_active",
+    "Replaces content of the active file.",
+    { content: z.string() },
+    async (args) => {
+      await obsidian.putActive(args);
+      return {
+        content: [{ type: "text", text: "OK" }],
+      };
+    },
+  );
 
-  server.tool("get_commands", async () => {
-    const commands = await obsidian.getCommands();
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(commands),
-        },
-      ],
-    };
-  });
+  server.tool(
+    "get_commands",
+    "Returns a list of available commands.",
+    async () => {
+      const commands = await obsidian.getCommands();
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(commands),
+          },
+        ],
+      };
+    },
+  );
 
-  server.tool("execute_command", { commandId: z.string() }, async (args) => {
-    await obsidian.executeCommand(args);
-    return {
-      content: [{ type: "text", text: "OK" }],
-    };
-  });
+  server.tool(
+    "execute_command",
+    "Executes a specified command.",
+    { commandId: z.string() },
+    async (args) => {
+      await obsidian.executeCommand(args);
+      return {
+        content: [{ type: "text", text: "OK" }],
+      };
+    },
+  );
 
   server.tool(
     "open_file",
+    "Opens a file, optionally in a new leaf.",
     { filename: z.string(), newLeaf: z.boolean().optional() },
     async (args) => {
       await obsidian.openFile(args);
@@ -97,6 +126,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "delete_periodic",
+    "Deletes the periodic note for a given period.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
     },
@@ -110,6 +140,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "get_periodic",
+    "Returns the periodic note for a given period.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
     },
@@ -123,6 +154,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "patch_periodic",
+    "Inserts content into a periodic note relative to a target.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
       operation: z.enum(["append", "prepend", "replace"]),
@@ -143,6 +175,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "post_periodic",
+    "Appends content to the periodic note.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
       content: z.string(),
@@ -157,6 +190,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "put_periodic",
+    "Replaces content of the periodic note.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
       content: z.string(),
@@ -169,15 +203,21 @@ export function registerTools(server: McpServer) {
     },
   );
 
-  server.tool("search_dataview", { query: z.string() }, async (args) => {
-    const results = await obsidian.searchDataview(args);
-    return {
-      content: [{ type: "text", text: JSON.stringify(results) }],
-    };
-  });
+  server.tool(
+    "search_dataview",
+    "Searches using a Dataview query.",
+    { query: z.string() },
+    async (args) => {
+      const results = await obsidian.searchDataview(args);
+      return {
+        content: [{ type: "text", text: JSON.stringify(results) }],
+      };
+    },
+  );
 
   server.tool(
     "search_json_logic",
+    "Searches using a JsonLogic query.",
     { logic: z.unknown() },
     async ({ logic }) => {
       const results = await obsidian.searchJsonLogic(logic);
@@ -189,6 +229,7 @@ export function registerTools(server: McpServer) {
 
   server.tool(
     "simple_search",
+    "Searches for text in vault with optional context.",
     { query: z.string(), contextLength: z.number().optional() },
     async (args) => {
       const results = await obsidian.simpleSearch(args);
@@ -198,15 +239,20 @@ export function registerTools(server: McpServer) {
     },
   );
 
-  server.tool("list_vault_root", async () => {
-    const files = await obsidian.listVaultRoot();
-    return {
-      content: [{ type: "text", text: JSON.stringify(files) }],
-    };
-  });
+  server.tool(
+    "list_vault_root",
+    "Lists files in the root of the vault.",
+    async () => {
+      const files = await obsidian.listVaultRoot();
+      return {
+        content: [{ type: "text", text: JSON.stringify(files) }],
+      };
+    },
+  );
 
   server.tool(
     "list_vault_directory",
+    "Lists files in a specified directory.",
     { pathToDirectory: z.string() },
     async (args) => {
       const files = await obsidian.listVaultDirectory(args);
@@ -216,22 +262,33 @@ export function registerTools(server: McpServer) {
     },
   );
 
-  server.tool("delete_file", { filename: z.string() }, async (args) => {
-    await obsidian.deleteFile(args);
-    return {
-      content: [{ type: "text", text: "OK" }],
-    };
-  });
+  server.tool(
+    "delete_file",
+    "Deletes a file in the vault.",
+    { filename: z.string() },
+    async (args) => {
+      await obsidian.deleteFile(args);
+      return {
+        content: [{ type: "text", text: "OK" }],
+      };
+    },
+  );
 
-  server.tool("get_file", { filename: z.string() }, async (args) => {
-    const file = await obsidian.getFile(args);
-    return {
-      content: [{ type: "text", text: JSON.stringify(file) }],
-    };
-  });
+  server.tool(
+    "get_file",
+    "Returns content of a vault file.",
+    { filename: z.string() },
+    async (args) => {
+      const file = await obsidian.getFile(args);
+      return {
+        content: [{ type: "text", text: JSON.stringify(file) }],
+      };
+    },
+  );
 
   server.tool(
     "patch_file",
+    "Inserts content into a vault file relative to a target.",
     {
       filename: z.string(),
       operation: z.enum(["append", "prepend", "replace"]),
@@ -243,31 +300,33 @@ export function registerTools(server: McpServer) {
       contentType: z.string().optional(),
     },
     async (args) => {
-      const res = await obsidian.patchFile(args);
+      await obsidian.patchFile(args);
       return {
-        content: [{ type: "text", text: JSON.stringify(res) }],
+        content: [{ type: "text", text: "OK" }],
       };
     },
   );
 
   server.tool(
     "post_file",
+    "Appends content to a vault file.",
     { filename: z.string(), content: z.string() },
     async (args) => {
-      const res = await obsidian.postFile(args);
+      await obsidian.postFile(args);
       return {
-        content: [{ type: "text", text: JSON.stringify(res) }],
+        content: [{ type: "text", text: "OK" }],
       };
     },
   );
 
   server.tool(
     "put_file",
+    "Creates or replaces a vault file.",
     { filename: z.string(), content: z.string() },
     async (args) => {
-      const res = await obsidian.putFile(args);
+      await obsidian.putFile(args);
       return {
-        content: [{ type: "text", text: JSON.stringify(res) }],
+        content: [{ type: "text", text: "OK" }],
       };
     },
   );

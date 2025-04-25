@@ -184,6 +184,7 @@ export class Obsidian {
   postPeriodic({ period, content }: { period: Period; content: string }) {
     return this.fetch<void>(`/periodic/${period}/`, {
       method: "POST",
+      headers: { "Content-Type": "text/markdown" },
       body: content,
     });
   }
@@ -262,17 +263,16 @@ export class Obsidian {
     targetDelimiter,
     contentType,
   }: PatchFileOptions) {
-    const headers: Record<string, string> = {
-      Operation: operation,
-      "Target-Type": targetType,
-      Target: target,
-      ...(trimTargetWhitespace && { "Trim-Target-Whitespace": "true" }),
-      ...(targetDelimiter && { "Target-Delimiter": targetDelimiter }),
-      ...(contentType && { "Content-Type": contentType }),
-    };
     return this.fetch<void>(`/vault/${sanitizeAndEncodePath(filename)}`, {
       method: "PATCH",
-      headers,
+      headers: {
+        Operation: operation,
+        "Target-Type": targetType,
+        Target: target,
+        ...(trimTargetWhitespace && { "Trim-Target-Whitespace": "true" }),
+        ...(targetDelimiter && { "Target-Delimiter": targetDelimiter }),
+        ...(contentType && { "Content-Type": contentType }),
+      },
       body: content,
     });
   }
@@ -280,6 +280,7 @@ export class Obsidian {
   postFile({ filename, content }: { filename: string; content: string }) {
     return this.fetch<void>(`/vault/${sanitizeAndEncodePath(filename)}`, {
       method: "POST",
+      headers: { "Content-Type": "text/markdown" },
       body: content,
     });
   }
