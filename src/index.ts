@@ -10,7 +10,7 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   // biome-ignore lint/suspicious/noConsole: <explanation>
-  console.error("Weather MCP Server running on stdio");
+  console.error(`Running ${name}@${version} MCP Server on stdio`);
 }
 
 main().catch((error) => {
