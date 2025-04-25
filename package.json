@@ -1,11 +1,29 @@
 {
   "name": "@fazer-ai/mcp-obsidian",
-  "version": "1.0.0",
-  "module": "index.ts",
+  "version": "1.0.1",
+  "module": "src/index.ts",
+  "main": "dist/index.js",
   "type": "module",
-  "private": true,
+  "files": [
+    "dist"
+  ],
+  "bin":{
+    "mcp-obsidian": "dist/index.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fazer-ai/mcp-obsidian"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --target node --outdir=dist",
+    "lint": "bun biome check",
+    "format": "bun biome check --write",
+    "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
