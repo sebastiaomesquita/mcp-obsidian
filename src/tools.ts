@@ -115,7 +115,7 @@ export function registerTools(server: McpServer) {
   server.tool(
     "open_file",
     "Opens a file, optionally in a new leaf.",
-    { filename: z.string(), newLeaf: z.boolean() },
+    { filename: z.string(), newLeaf: z.boolean().nullable().optional() },
     async (args) => {
       await obsidian.openFile(args);
       return {
