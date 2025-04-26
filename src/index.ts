@@ -1,3 +1,5 @@
+// biome-ignore lint/correctness/noNodejsModules: <explanation>
+import { writeFileSync } from "node:fs";
 import { registerTools } from "@/tools";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -16,9 +18,12 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  transport.onerror = (error) => {
-    // biome-ignore lint/suspicious/noConsole: <explanation>
-    console.error("Transport error:", error);
+  transport.onmessage = (message) => {
+    server.server.sendLoggingMessage({
+      level: "error",
+      data: `transport.onmessage=${message}`,
+    });
+    writeFileSync("transport.log", JSON.stringify(message, null, 2));
   };
   // biome-ignore lint/suspicious/noConsole: <explanation>
   console.error(`Running ${name}@${version} MCP Server on stdio`);
