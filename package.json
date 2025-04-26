@@ -16,6 +16,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "mcp",
+    "mcp-obsidian",
+    "modelcontextprotocol",
+    "claude",
+    "obsidian",
+    "fazer-ai"
+  ],
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "bun build src/index.ts --target node --outdir=dist",
@@ -25,8 +33,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/bun": "latest",
-    "@types/express": "^5.0.1"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
