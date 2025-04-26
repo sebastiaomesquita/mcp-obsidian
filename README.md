@@ -1,6 +1,6 @@
 # MCP server for Obsidian (TypeScript + Bun)
 
-![NPM Version](https://img.shields.io/npm/v/%40fazer-ai%2Fmcp-obsidian)
+[![NPM Version](https://img.shields.io/npm/v/%40fazer-ai%2Fmcp-obsidian)](https://www.npmjs.com/package/@fazer-ai/mcp-obsidian)
 
 > A Model-Context-Protocol (MCP) server that lets Claude (or any MCP-compatible LLM) interact with your Obsidian vault through the [**Local REST API**](https://github.com/coddingtonbear/obsidian-local-rest-api) community plugin – written in **TypeScript** and runnable with **bunx**.
 
