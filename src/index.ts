@@ -8,11 +8,6 @@ const server = new McpServer(
   {
     instructions:
       "This is a MCP server for Obsidian. It is a simple server that can be used to run commands and get responses from the client running Local REST API community plugin.",
-    capabilities: {
-      resources: {},
-      prompts: {},
-      tools: {},
-    },
   },
 );
 registerTools(server);
@@ -20,6 +15,11 @@ registerTools(server);
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
+
+  transport.onerror = (error) => {
+    // biome-ignore lint/suspicious/noConsole: <explanation>
+    console.error("Transport error:", error);
+  };
   // biome-ignore lint/suspicious/noConsole: <explanation>
   console.error(`Running ${name}@${version} MCP Server on stdio`);
 }
