@@ -37,23 +37,22 @@
 | **obsidian_post_file** | Appends Markdown to a file (creates it if it doesn’t exist) |
 | **obsidian_put_file** | Creates a new file or replaces the entire body of an existing file |
 
-*See [Local REST API specifications](https://coddingtonbear.github.io/obsidian-local-rest-api) for more details.*
+*See Obsidian's [Local REST API specifications](https://coddingtonbear.github.io/obsidian-local-rest-api) for more details.*
 
 ---
 
 ### Example prompts
 
 ```text
-# Summarise the latest “architecture call” note
+# Summarize the latest “architecture call” note
 # (Claude will transparently call list_files_in_vault → get_file_contents)
-Get the contents of the last “architecture call” note and summarise them.
+Get the contents of the last “architecture call” note and summarize them.
 
 # Find all mentions of Cosmos DB
 Search for all files where “Azure CosmosDb” is mentioned and explain the context briefly.
 
 # Create a summary note
-Summarise yesterday’s meeting and save it as
-“summaries/2025-04-24-meeting.md”. Add a short intro suitable for e-mail.
+Summarize yesterday’s meeting and save it as “summaries/2025-04-24-meeting.md”. Add a short intro suitable for e-mail.
 ```
 
 ---
@@ -61,6 +60,8 @@ Summarise yesterday’s meeting and save it as
 ## ⚙️ Configuration
 
 ### Obsidian REST API key
+
+There are two ways to pass the Obsidian API key to the server:
 
 1. **Server config (recommended)** – pass it via the `env` field in your Claude (or other client) MCP-server declaration:
 
@@ -80,14 +81,14 @@ Summarise yesterday’s meeting and save it as
 ```
 
 >[!NOTE]
-> Be sure to use `@fazer-ai/mcp-obsidian@latest` to ensure you always run the most up to date version of the server.
+> Use `@fazer-ai/mcp-obsidian@latest` to ensure you always run the most up to date version of the server.
 
-2. **`.env` file** – place the key in the `.env` you created above.
+2. Alternatively, you can use an **`.env` file**. Place the key in the `.env` you created above. Note it must be placed in the working directory where the MCP server is running.
 
 
 ### Environment variables
 
-Alternatively, copy the provided `.env.example` to an `.env` file in your working directory and fill in your values:
+You can use the `.env.example` file as reference to create your own `.env` file.
 
 ```bash
 PORT=3045           # TCP port the MCP server will listen on
@@ -105,6 +106,9 @@ OBSIDIAN_PORT=27123 # Port the Local REST API plugin is bound to
 
 After cloning this repo, you can update Claude's config to run your local version of the server instead of pulling from npm.
 This is useful for quickly testing changes before publishing.
+
+>[!NOTE]
+>Keep in mind any changes you make on the code will only take effect after restarting the Claude Desktop app.
 
 1. Clone this repo and run `bun install` to install dependencies.
 1. Update your `claude_desktop_config.json` to point to your local version of the server:
@@ -125,7 +129,7 @@ This is useful for quickly testing changes before publishing.
 ```
 
 >[!IMPORTANT]
-> Note we use `bun` instead of `bunx` here.
+>Note we use `bun` instead of `bunx` here.
 
 ### Debugging
 
@@ -151,5 +155,3 @@ Open the URL it prints to step through requests (usually http://localhost:6274),
 ## License
 
 MIT – see [LICENSE](LICENSE).
-
----
