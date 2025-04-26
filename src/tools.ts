@@ -6,20 +6,24 @@ import { z } from "zod";
 const obsidian = new Obsidian(config.obsidian);
 
 export function registerTools(server: McpServer) {
-  server.tool("status", "Returns basic details about the server.", async () => {
-    const status = await obsidian.status();
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(status),
-        },
-      ],
-    };
-  });
+  server.tool(
+    "obsidian_status",
+    "Returns basic details about the server.",
+    async () => {
+      const status = await obsidian.status();
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(status),
+          },
+        ],
+      };
+    },
+  );
 
   server.tool(
-    "delete_active",
+    "obsidian_delete_active",
     "Deletes the currently-active file.",
     async () => {
       await obsidian.deleteActive();
@@ -30,7 +34,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "get_active",
+    "obsidian_get_active",
     "Returns the content of the currently-active file.",
     async () => {
       const note = await obsidian.getActive();
@@ -41,7 +45,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "patch_active",
+    "obsidian_patch_active",
     "Inserts content into the active file relative to a target.",
     {
       operation: z.enum(["append", "prepend", "replace"]),
@@ -61,7 +65,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "post_active",
+    "obsidian_post_active",
     "Appends content to the active file.",
     { content: z.string() },
     async (args) => {
@@ -73,7 +77,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "put_active",
+    "obsidian_put_active",
     "Replaces content of the active file.",
     { content: z.string() },
     async (args) => {
@@ -85,7 +89,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "get_commands",
+    "obsidian_get_commands",
     "Returns a list of available commands.",
     async () => {
       const commands = await obsidian.getCommands();
@@ -101,7 +105,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "execute_command",
+    "obsidian_execute_command",
     "Executes a specified command.",
     { commandId: z.string() },
     async (args) => {
@@ -113,9 +117,9 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "open_file",
+    "obsidian_open_file",
     "Opens a file, optionally in a new leaf.",
-    { filename: z.string(), newLeaf: z.boolean() },
+    { filename: z.string(), newLeaf: z.boolean().nullish() },
     async (args) => {
       await obsidian.openFile(args);
       return {
@@ -125,7 +129,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "delete_periodic",
+    "obsidian_delete_periodic",
     "Deletes the periodic note for a given period.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
@@ -139,7 +143,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "get_periodic",
+    "obsidian_get_periodic",
     "Returns the periodic note for a given period.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
@@ -153,7 +157,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "patch_periodic",
+    "obsidian_patch_periodic",
     "Inserts content into a periodic note relative to a target.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
@@ -174,7 +178,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "post_periodic",
+    "obsidian_post_periodic",
     "Appends content to the periodic note.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
@@ -189,7 +193,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "put_periodic",
+    "obsidian_put_periodic",
     "Replaces content of the periodic note.",
     {
       period: z.enum(["daily", "weekly", "monthly", "quarterly", "yearly"]),
@@ -204,7 +208,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "search_dataview",
+    "obsidian_search_dataview",
     "Searches using a Dataview query.",
     { query: z.string() },
     async (args) => {
@@ -216,7 +220,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "search_json_logic",
+    "obsidian_search_json_logic",
     "Searches using a JsonLogic query.",
     { logic: z.unknown() },
     async ({ logic }) => {
@@ -228,7 +232,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "simple_search",
+    "obsidian_simple_search",
     "Searches for text in vault with optional context.",
     { query: z.string(), contextLength: z.number().optional() },
     async (args) => {
@@ -240,7 +244,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "list_vault_root",
+    "obsidian_list_vault_root",
     "Lists files in the root of the vault.",
     async () => {
       const files = await obsidian.listVaultRoot();
@@ -251,7 +255,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "list_vault_directory",
+    "obsidian_list_vault_directory",
     "Lists files in a specified directory.",
     { pathToDirectory: z.string() },
     async (args) => {
@@ -263,7 +267,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "delete_file",
+    "obsidian_delete_file",
     "Deletes a file in the vault.",
     { filename: z.string() },
     async (args) => {
@@ -275,7 +279,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "get_file",
+    "obsidian_get_file",
     "Returns content of a vault file.",
     { filename: z.string() },
     async (args) => {
@@ -287,7 +291,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "patch_file",
+    "obsidian_patch_file",
     "Inserts content into a vault file relative to a target.",
     {
       filename: z.string(),
@@ -308,7 +312,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "post_file",
+    "obsidian_post_file",
     "Appends content to a vault file.",
     { filename: z.string(), content: z.string() },
     async (args) => {
@@ -320,7 +324,7 @@ export function registerTools(server: McpServer) {
   );
 
   server.tool(
-    "put_file",
+    "obsidian_put_file",
     "Creates or replaces a vault file.",
     { filename: z.string(), content: z.string() },
     async (args) => {
