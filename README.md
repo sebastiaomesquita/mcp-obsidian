@@ -91,7 +91,6 @@ There are two ways to pass the Obsidian API key to the server:
 You can use the `.env.example` file as reference to create your own `.env` file.
 
 ```bash
-PORT=3045           # TCP port the MCP server will listen on
 OBSIDIAN_API_KEY=   # Obtain this from the plugin settings in Obsidian
 OBSIDIAN_PROTOCOL=http
 OBSIDIAN_HOST=localhost
